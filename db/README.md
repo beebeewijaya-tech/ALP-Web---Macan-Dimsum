@@ -10,4 +10,6 @@ jika sudah ada XAMPP, bisa di run aja XAMPP nya dan gunakan dbeaver atau workben
 
 0003 -> seed user dasar supaya tabel `user` punya sample data login/testing.
 
+0004 -> seed data produk (dimsum) yang dipakai di halaman frontend.
+
 tinggal di copy aja ke SQL editor dan run.
