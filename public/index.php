@@ -52,6 +52,6 @@
     <?php endif; ?>
   </section>
 
-  <script src="<?= $baseUrl ?>assets/js/cart.js"></script>
+  <script src="<?= $baseUrl ?>assets/js/home.js"></script>
 </body>
 </html>

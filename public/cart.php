@@ -1,7 +1,17 @@
-<?php
-?>
-
 <?php include __DIR__ . '/partials/metadata.php'; ?>
+<?php
+  $products = [];
+
+  $query = 'SELECT id, name, image, price FROM products ORDER BY id ASC';
+  if ($result = $conn->query($query)) {
+    while ($row = $result->fetch_assoc()) {
+      $products[$row['id']] = $row;
+    }
+    $result->free();
+  }
+
+  $conn->close();
+?>
 <body>
   <?php include __DIR__ . '/partials/header.php'; ?>
 
@@ -11,44 +21,9 @@
     <div class="cart-container">
 
       <!-- Kiri: Cart Items -->
-      <div class="cart-items">
-
-        <div class="cart-item">
-          <img src="<?= $imagePath ?>dimsum1.png" alt="Dimsum Mentai" class="cart-item-img">
-
-          <div class="cart-item-info">
-            <h3>Dimsum Mentai</h3>
-            <p class="cart-desc">
-              Dimsum ayam yang gurih dan juicy, disajikan dengan saus mentai ala Jepang dengan real tobiko.
-            </p>
-            <p class="price">Rp 22.000</p>
-          </div>
-
-          <div class="qty-control">
-            <button>-</button>
-            <span>2</span>
-            <button>+</button>
-          </div>
-        </div>
-
-        <div class="cart-item">
-          <img src="<?= $imagePath ?>dimsum3.png" alt="Dimsum Ayam" class="cart-item-img">
-
-          <div class="cart-item-info">
-            <h3>Dimsum Kuah Creamy</h3>
-            <p class="cart-desc">
-              Dimsum ayam dengan tekstur lembut dan rasa gurih khas dipadukan dengan kuah creamy yang hangat.
-            </p>
-            <p class="price">Rp 16.000</p>
-          </div>
-
-          <div class="qty-control">
-            <button>-</button>
-            <span>1</span>
-            <button>+</button>
-          </div>
-        </div>
-
+      <div class="cart-items-column">
+        <div class="cart-items" id="cart-items"></div>
+        <p id="cart-empty" class="cart-empty">Belum ada item di cart.</p>
       </div>
 
       <!-- Kanan: Order Details -->
@@ -87,5 +62,13 @@
     </div>
   </section>
 
+  <script>
+    // goals are
+    // 1. get PHP array from the query products and encode it into JSON and save to JS global variable
+    // 2. get PHP imagepath that we save at partials and save to JS global variable
+    window.PRODUCT_CATALOG = <?= json_encode($products, JSON_UNESCAPED_UNICODE); ?>;
+    window.IMAGE_BASE_PATH = '<?= $imagePath; ?>';
+  </script>
+  <script src="<?= $baseUrl ?>assets/js/cart-page.js"></script>
 </body>
 </html>

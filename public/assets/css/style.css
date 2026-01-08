@@ -162,6 +162,12 @@ body {
   margin: 0 auto;
 }
 
+.cart-items-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* cart item list */
 .cart-items {
   display: flex;
@@ -197,6 +203,11 @@ body {
 .cart-item-info h3 {
   margin-bottom: 6px;
   color: var(--brown-dark);
+}
+
+.cart-empty {
+  text-align: center;
+  color: #777;
 }
 
 /* cart description */
