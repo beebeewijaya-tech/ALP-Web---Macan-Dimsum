@@ -5,6 +5,7 @@
   $currentPage = basename($_SERVER['SCRIPT_NAME']);
   $base = isset($baseUrl) ? rtrim($baseUrl, '/') : '';
   $loginUrl = $base . '/login.php';
+  $cartUrl = $base . '/cart.php';
 
   if (!isset($_SESSION['user_id']) && !in_array($currentPage, $publicRoutes, true)) {
     // if didn't has session
@@ -18,7 +19,16 @@
     // if its already has session
     // when visit register or login
     // will push back to home
-    header('Location: ' . $baseUrl);
+
+    $roleId = isset($_SESSION['role_id']);
+    if ($roleId === 2) {
+      // if user, go home
+      header('Location: ' . $baseUrl);
+    } else {
+      // if admin go admin
+      header('Location: ' . $cartUrl);
+    }
+
     exit;
   }
 ?>

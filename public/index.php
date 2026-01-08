@@ -2,7 +2,7 @@
 <?php
   $products = [];
 
-  $query = 'SELECT id, name, image, price FROM product ORDER BY id ASC';
+  $query = 'SELECT id, name, image, price FROM products ORDER BY id ASC';
   if ($result = $conn->query($query)) {
     while ($row = $result->fetch_assoc()) {
       $products[] = $row;

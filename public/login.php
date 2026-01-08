@@ -6,7 +6,7 @@
     $email = trim($_POST["email"] ?? '');
     $password = $_POST["password"] ?? '';
 
-    $stmt = $conn->prepare('SELECT id, password FROM user WHERE email = ?');
+    $stmt = $conn->prepare('SELECT id, password, role_id FROM users WHERE email = ?');
 
     if ($stmt === false) {
       $errors[] = 'Terjadi kesalahan. Coba beberapa saat lagi.';
@@ -20,6 +20,7 @@
         $errors[] = 'Email / password salah';
       } else {
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role_id'] = $user['role_id'];
         header('Location: ' . $baseUrl);
         exit;
       }

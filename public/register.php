@@ -23,7 +23,7 @@
 
     if (empty($errors)) {
       $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-      $insertStmt = $conn->prepare('INSERT INTO user (email, password, role_id, address, created, updated) VALUES (?, ?, ?, ?, NOW(), NOW())');
+      $insertStmt = $conn->prepare('INSERT INTO users (email, password, role_id, address, created, updated) VALUES (?, ?, ?, ?, NOW(), NOW())');
 
       if ($insertStmt === false) {
         $errors[] = 'Query gagal disiapkan';
@@ -36,6 +36,8 @@
           exit;
         } else {
           if ($conn->errno === 1062) {
+            // 1062 is a code for SQL error
+            // that detecting if CONFLICT or duplicate key error, something like syserrcode
             $errors[] = 'Email sudah terdaftar, silakan login';
           } else {
             $errors[] = 'Gagal mendaftarkan akun. Coba lagi';
