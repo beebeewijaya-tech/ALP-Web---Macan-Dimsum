@@ -23,12 +23,13 @@
 
     if (empty($errors)) {
       $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-      $insertStmt = $conn->prepare('INSERT INTO user (email, password, address, created, updated) VALUES (?, ?, ?, NOW(), NOW())');
+      $insertStmt = $conn->prepare('INSERT INTO user (email, password, role_id, address, created, updated) VALUES (?, ?, ?, ?, NOW(), NOW())');
 
       if ($insertStmt === false) {
         $errors[] = 'Query gagal disiapkan';
       } else {
-        $insertStmt->bind_param('sss', $email, $passwordHash, $address);
+        $defaultRoleId = 2; // role user
+        $insertStmt->bind_param('ssis', $email, $passwordHash, $defaultRoleId, $address);
 
         if ($insertStmt->execute()) {
           header('Location: login.php');

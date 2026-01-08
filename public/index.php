@@ -2,7 +2,7 @@
 <?php
   $products = [];
 
-  $query = 'SELECT name, image, price FROM product ORDER BY id ASC';
+  $query = 'SELECT id, name, image, price FROM product ORDER BY id ASC';
   if ($result = $conn->query($query)) {
     while ($row = $result->fetch_assoc()) {
       $products[] = $row;
@@ -32,11 +32,26 @@
             <p class="price">
               Rp <?= number_format((float) $product['price'], 0, ',', '.'); ?>
             </p>
-            <button class="btn-primary">Add to Cart</button>
+            <div class="product-actions">
+              <button
+                class="btn-primary add-cart-btn"
+                data-product-id="<?= (int) $product['id']; ?>">
+                Add to Cart
+              </button>
+              <div
+                class="qty-control cart-counter hidden"
+                data-product-id="<?= (int) $product['id']; ?>">
+                <button type="button" class="qty-btn" data-action="decrement">-</button>
+                <span class="qty-value">0</span>
+                <button type="button" class="qty-btn" data-action="increment">+</button>
+              </div>
+            </div>
           </div>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
   </section>
+
+  <script src="<?= $baseUrl ?>assets/js/cart.js"></script>
 </body>
 </html>
