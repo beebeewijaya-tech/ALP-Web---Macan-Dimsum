@@ -10,6 +10,15 @@
     $result->free();
   }
 
+  $userID = $_SESSION['user_id'];
+  $query = $conn->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+  $query->bind_param('i', $userID);
+  $query->execute();
+  if ($result = $query->get_result()) {
+    $user = $result->fetch_assoc();
+    echo $user['phone'];
+  }
+
   $conn->close();
 ?>
 <body>
@@ -32,13 +41,13 @@
 
         <p>
           <strong>Address</strong><br>
-          Jl. Halim Perdana No. 11, Bangkalan
+          <?= $user['address'] ?>
         </p>
 
         <p>
           <strong>Contact</strong><br>
-          Email: test@gmail.com<br>
-          Phone: +62 811 333 44
+          Email: <?= $user['email'] ?><br>
+          Phone: <?= $user['phone'] ?>
         </p>
 
         <label>Delivery Type</label>
@@ -52,7 +61,7 @@
         </div>
 
         <label>Notes</label>
-        <textarea placeholder="add notes here..."></textarea>
+        <textarea placeholder="add notes here..." name="notes"></textarea>
 
         <button class="btn-primary" type="button">
           Checkout

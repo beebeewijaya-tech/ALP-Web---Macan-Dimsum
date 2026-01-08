@@ -8,6 +8,7 @@
     $email = trim($_POST["email"] ?? '');
     $password = $_POST["password"] ?? '';
     $address = trim($_POST["address"] ?? '');
+    $phone = trim($_POST["phone"] ?? '');
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $errors[] = 'Email tidak valid';
@@ -17,19 +18,23 @@
       $errors[] = 'Password minimal 6 karakter';
     }
 
+    if ($phone === '') {
+      $errors[] = 'No Hp wajib diisi';
+    }
+
     if ($address === '') {
       $errors[] = 'Alamat wajib diisi';
     }
 
     if (empty($errors)) {
       $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-      $insertStmt = $conn->prepare('INSERT INTO users (email, password, role_id, address, created, updated) VALUES (?, ?, ?, ?, NOW(), NOW())');
+      $insertStmt = $conn->prepare('INSERT INTO users (email, password, role_id, address, phone, created, updated) VALUES (?, ?, ?, ?, ?, NOW(), NOW())');
 
       if ($insertStmt === false) {
         $errors[] = 'Query gagal disiapkan';
       } else {
         $defaultRoleId = 2; // role user
-        $insertStmt->bind_param('ssis', $email, $passwordHash, $defaultRoleId, $address);
+        $insertStmt->bind_param('ssiss', $email, $passwordHash, $defaultRoleId, $address, $phone);
 
         if ($insertStmt->execute()) {
           header('Location: login.php');
@@ -70,6 +75,11 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input class="form-control" type="password" id="password" name="password" placeholder="******" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input class="form-control" type="phone" id="phone" name="phone" placeholder="+628123456789" value="<?= htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?>" required>
         </div>
 
         <div class="form-group">

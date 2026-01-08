@@ -35,6 +35,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   address VARCHAR(255) NULL,
+  phone VARCHAR(255) NULL,
   created DATETIME NULL,
   updated DATETIME NULL,
   PRIMARY KEY (id),
