@@ -296,12 +296,12 @@ body {
   padding: 24px;
   border-radius: 18px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .order-item-text {
-  max-width: 70%;
+  width: 100%;
 }
 
 .order-item h3 {
@@ -335,12 +335,18 @@ body {
 
 /* order status badge */
 .order-status {
-  margin-top: 12px;
+  margin-top: 0;
   padding: 10px;
   border-radius: 6px;
   font-weight: 600;
   text-align: center;
   width: fit-content;
+}
+
+.order-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* processed status */
@@ -380,6 +386,13 @@ body {
 
 .form-error {
   color: #b3261e;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.form-success {
+  color: #1e7d3b;
   text-align: center;
   font-size: 14px;
   margin-top: 12px;

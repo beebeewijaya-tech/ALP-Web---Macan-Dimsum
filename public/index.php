@@ -26,9 +26,9 @@
       <div class="product-grid">
         <?php foreach ($products as $product): ?>
           <div class="product-card">
-            <img src="<?= $imagePath . htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8'); ?>"
-              alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
-            <h3><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
+            <img src="<?= $imagePath . $product['image']; ?>"
+              alt="<?= $product['name']; ?>">
+            <h3><?= $product['name']; ?></h3>
             <p class="price">
               Rp <?= number_format((float) $product['price'], 0, ',', '.'); ?>
             </p>

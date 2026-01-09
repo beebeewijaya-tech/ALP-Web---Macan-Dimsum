@@ -8,6 +8,6 @@
   <nav class="nav-menu">
     <a href="<?= $baseUrl?>">Home</a>
     <a href="<?= $baseUrl?>cart.php">Cart</a>
-    <a href="<?= $baseUrl?>order_detail.php">Orders</a>
+    <a href="<?= $baseUrl?>order.php">Orders</a>
   </nav>
 </header>

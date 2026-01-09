@@ -3,6 +3,9 @@ const productCatalog = window.PRODUCT_CATALOG || {};
 const imageBasePath = window.IMAGE_BASE_PATH || '';
 
 const cartContainer = document.getElementById('cart-items');
+const totalPrice = document.getElementById('total-price');
+const totalPriceValue = document.getElementById('total-price-value');
+const cartItemsValue = document.getElementById('cart-items-value');
 const emptyState = document.getElementById('cart-empty');
 const currencyFormatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
@@ -28,10 +31,14 @@ const renderCartItems = () => {
 
   if (entries.length === 0) {
     toggleEmptyState(true);
+     if (totalPrice) totalPrice.innerText = 'Total Harga: Rp 0';
+     if (totalPriceValue) totalPriceValue.value = '';
+     if (cartItemsValue) cartItemsValue.value = '{}';
     return;
   }
 
   toggleEmptyState(false);
+  let tp = 0
 
   entries.forEach(([productId, quantity]) => {
     const product = productCatalog[productId];
@@ -52,8 +59,15 @@ const renderCartItems = () => {
         <button type="button" class="qty-btn" data-action="increment" data-product-id="${productId}">+</button>
       </div>
     `;
+    tp += (product.price * quantity)
     cartContainer.appendChild(itemElement);
   });
+
+  totalPrice.innerText = `Total Harga: ${currencyFormatter.format(tp)}`;
+  totalPriceValue.value = tp;
+  if (cartItemsValue) {
+    cartItemsValue.value = JSON.stringify(cart);
+  }
 };
 
 const updateQuantity = (productId, delta) => {

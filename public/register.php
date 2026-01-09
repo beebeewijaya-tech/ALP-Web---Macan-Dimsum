@@ -60,16 +60,14 @@
       <h2 class="section-title">Daftar akun baru</h2>
       <?php if (!empty($errors)): ?>
         <p class="form-error">
-          <?= implode('<br>', array_map(function ($error) {
-            return htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
-          }, $errors)); ?>
+          <?= implode('<br>', $errors); ?>
         </p>
       <?php endif; ?>
 
       <form class="auth-form" method="post" action="./register.php">
         <div class="form-group">
           <label for="email">Email</label>
-          <input class="form-control" type="email" id="email" name="email" placeholder="you@example.com" value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?>" required>
+          <input class="form-control" type="email" id="email" name="email" placeholder="you@example.com" value="<?= $email; ?>" required>
         </div>
 
         <div class="form-group">
@@ -79,12 +77,12 @@
 
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input class="form-control" type="phone" id="phone" name="phone" placeholder="+628123456789" value="<?= htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?>" required>
+          <input class="form-control" type="phone" id="phone" name="phone" placeholder="+628123456789" value="<?= $phone; ?>" required>
         </div>
 
         <div class="form-group">
           <label for="address">Alamat</label>
-          <textarea class="form-control" rows="5" id="address" name="address" required><?= htmlspecialchars($address, ENT_QUOTES, 'UTF-8'); ?></textarea>
+          <textarea class="form-control" rows="5" id="address" name="address" required><?= $address; ?></textarea>
         </div>
 
         <div class="form-actions">
