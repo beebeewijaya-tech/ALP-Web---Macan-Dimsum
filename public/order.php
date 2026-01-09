@@ -1,6 +1,12 @@
 <?php include __DIR__ . '/partials/metadata.php'; ?>
 <?php
   $orders = [];
+  $statusClassMap = [
+    'unpaid' => 'status-unpaid',
+    'paid' => 'status-paid',
+    'processed' => 'status-processed',
+    'delivered' => 'status-delivered'
+  ];
 
   $orderStmt = $conn->prepare('SELECT o.id, o.total_price, o.delivery_type, o.created, s.status_type FROM orders o JOIN statuses s ON s.id = o.status_id WHERE o.user_id = ? ORDER BY o.created DESC');
   $userID = $_SESSION['user_id'];
@@ -36,7 +42,7 @@
             </div>
 
             <div class="order-actions">
-              <div class="order-status <?= strtolower($order['status_type']) === 'delivered' ? 'status-delivered' : 'status-processed'; ?>">
+              <div class="order-status <?= $statusClassMap[strtolower($order['status_type'])] ?? 'status-processed'; ?>">
                 <?= $order['status_type']; ?>
               </div>
 

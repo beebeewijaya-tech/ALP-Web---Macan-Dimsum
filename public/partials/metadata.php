@@ -10,4 +10,13 @@
   <meta charset="UTF-8">
   <title>Dimsum Macan</title>
   <link rel="stylesheet" href="./assets/css/style.css">
+  <?php if (!empty($_SESSION['clear_cart_after_order'])): ?>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        localStorage.removeItem('@cart');
+      });
+    </script>
+  <?php
+    unset($_SESSION['clear_cart_after_order']);
+  endif; ?>
 </head>

@@ -73,8 +73,8 @@
             }
             $itemStmt->close();
           }
-          echo "<script>localStorage.removeItem('@cart');</script>";
-          header('Location: order_detail.php?id=' . $orderId);
+          $_SESSION['clear_cart_after_order'] = true;
+          header('Location: payment.php?id=' . $orderId);
           exit;
         } else {
           $orderError = 'Gagal menyimpan pesanan.';

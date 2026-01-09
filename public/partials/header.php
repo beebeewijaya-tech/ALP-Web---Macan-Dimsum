@@ -9,5 +9,7 @@
     <a href="<?= $baseUrl?>">Home</a>
     <a href="<?= $baseUrl?>cart.php">Cart</a>
     <a href="<?= $baseUrl?>order.php">Orders</a>
+    <a href="<?= $baseUrl?>payment.php">Payment</a>
+    <a class="btn-logout" href="<?= $baseUrl?>logout.php">Logout</a>
   </nav>
 </header>

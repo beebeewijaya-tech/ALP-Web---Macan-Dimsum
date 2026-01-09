@@ -5,6 +5,13 @@
   $order = null;
   $orderItems = [];
 
+  $statusClassMap = [
+    'unpaid' => 'status-unpaid',
+    'paid' => 'status-paid',
+    'processed' => 'status-processed',
+    'delivered' => 'status-delivered'
+  ];
+
   if ($orderId > 0) {
     $orderStmt = $conn->prepare('SELECT o.*, s.status_type, u.email FROM orders o JOIN statuses s ON s.id = o.status_id JOIN users u ON u.id = o.user_id WHERE o.id = ? AND o.user_id = ? LIMIT 1');
     $orderStmt->bind_param('ii', $orderId, $userID);
@@ -39,25 +46,37 @@
     <?php else: ?>
       <div class="order-detail-container">
 
-        <!-- Kiri: Order Items -->
-        <div class="order-items">
-          <?php if (empty($orderItems)): ?>
-            <p>Belum ada item di order ini.</p>
-          <?php else: ?>
-            <?php foreach ($orderItems as $item): ?>
-              <div class="order-item">
-                <div class="order-item-text">
-                  <h3><?= $item['name']; ?></h3>
-                  <p class="order-desc">
-                    Harga: Rp <?= number_format((float) $item['price'], 0, ',', '.'); ?>
-                  </p>
-                  <span class="item-count"><?= $item['quantity']; ?> item(s)</span>
-                </div>
-
-                <img src="<?= $imagePath . $item['image']; ?>" alt="<?= $item['name']; ?>">
-              </div>
-            <?php endforeach; ?>
+        <div>
+          <?php if (strtolower($order['status_type']) === 'unpaid'): ?>
+            <div class="payment-card" style="margin-bottom:24px;">
+              <h3>Scan QR to Pay</h3>
+              <img src="<?= $imagePath ?>qris.png" alt="QR Payment" class="qr-image">
+              <p class="payment-text">
+                Selesaikan pembayaran terlebih dahulu agar pesanan bisa diproses.
+              </p>
+            </div>
           <?php endif; ?>
+
+          <!-- Kiri: Order Items -->
+          <div class="order-items">
+            <?php if (empty($orderItems)): ?>
+              <p>Belum ada item di order ini.</p>
+            <?php else: ?>
+              <?php foreach ($orderItems as $item): ?>
+                <div class="order-item">
+                  <div class="order-item-text">
+                    <h3><?= $item['name']; ?></h3>
+                    <p class="order-desc">
+                      Harga: Rp <?= number_format((float) $item['price'], 0, ',', '.'); ?>
+                    </p>
+                    <span class="item-count"><?= $item['quantity']; ?> item(s)</span>
+                  </div>
+
+                  <img src="<?= $imagePath . $item['image']; ?>" alt="<?= $item['name']; ?>">
+                </div>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </div>
         </div>
 
         <!-- Kanan: Order Summary -->
@@ -90,7 +109,7 @@
             Rp <?= number_format((float) $order['total_price'], 0, ',', '.'); ?>
           </p>
 
-          <div class="order-status <?= strtolower($order['status_type']) === 'delivered' ? 'status-delivered' : 'status-processed'; ?>">
+          <div class="order-status <?= $statusClassMap[strtolower($order['status_type'])] ?? 'status-processed'; ?>">
             <?= $order['status_type']; ?>
           </div>
         </div>
