@@ -21,7 +21,14 @@
       } else {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role_id'] = $user['role_id'];
-        header('Location: ' . $baseUrl);
+
+        if ($user['role_id'] === 2) {
+          // if user, go home
+          header('Location: ' . $baseUrl);
+        } else {
+          // if admin go admin
+          header('Location: ' . $adminUrl);
+        }
         exit;
       }
 

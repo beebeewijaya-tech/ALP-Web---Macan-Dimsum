@@ -1,5 +1,6 @@
 <?php
   $baseUrl = '/alp/public/';
+  $adminUrl = '/alp/public/admin';
   $imagePath = '/alp/public/assets/images/';
 ?>
 <?php include __DIR__ . '/session.php'; ?>
@@ -9,7 +10,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Dimsum Macan</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>assets/css/style.css">
   <?php if (!empty($_SESSION['clear_cart_after_order'])): ?>
     <script>
       window.addEventListener('DOMContentLoaded', function () {

@@ -16,7 +16,6 @@
 
   <?php include __DIR__ . '/partials/header.php'; ?>
 
-  <!-- Menu Andalan -->
   <section class="section">
     <h2 class="section-title">Semua Menu</h2>
 
