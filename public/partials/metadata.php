@@ -1,7 +1,7 @@
 <?php
-  $baseUrl = '/';
-  $adminUrl = '/admin';
-  $imagePath = '/assets/images/';
+  $baseUrl = '/alp/public/';
+  $adminUrl = '/alp/public/admin';
+  $imagePath = '/alp/public/assets/images/';
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
