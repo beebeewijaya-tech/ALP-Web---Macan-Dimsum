@@ -3,6 +3,7 @@
   $errors = [];
   $email = '';
   $address = '';
+  $phone = '';
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST["email"] ?? '');

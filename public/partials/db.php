@@ -1,7 +1,7 @@
 <?php
   $servername = "localhost";
-  $username = "root";
-  $password = "";
+  $username = getenv('DB_USER') ?: 'root';
+  $password = getenv('DB_PASS') ?: '';
   $dbname = "macan_dimsum_go";
   $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -1,7 +1,10 @@
 <?php
-  $baseUrl = '/alp/public/';
-  $adminUrl = '/alp/public/admin';
-  $imagePath = '/alp/public/assets/images/';
+  $baseUrl = '/';
+  $adminUrl = '/admin';
+  $imagePath = '/assets/images/';
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
 ?>
 <?php include __DIR__ . '/session.php'; ?>
 <?php include __DIR__ . '/db.php'; ?>
