@@ -36,15 +36,22 @@
     $cartItemsRaw = $_POST['cart_items'] ?? '{}';
     $cartItems = json_decode($cartItemsRaw, true);
 
+    $requiresAddress = $deliveryType === 'delivery';
+
     if (!$cartItems || !is_array($cartItems)) {
       $orderError = 'Cart masih kosong.';
     } elseif ($deliveryType === '') {
       $orderError = 'Pilih tipe delivery.';
-    } elseif ($addressInput === '') {
-      $orderError = 'Alamat wajib diisi.';
+    } elseif ($requiresAddress && $addressInput === '') {
+      $orderError = 'Alamat wajib diisi untuk delivery.';
     } elseif ($totalPrice <= 0) {
       $orderError = 'Total harga tidak valid.';
     } else {
+      if (!$requiresAddress) {
+        $addressInput = '';
+        $city = '';
+        $postalCode = '';
+      }
       $statusId = 1; // default PAID
       $insertOrder = $conn->prepare('INSERT INTO orders (user_id, status_id, delivery_type, total_price, address, city, postal_code, notes, phone, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
       if ($insertOrder) {
@@ -137,17 +144,19 @@
             Delivery
           </label>
         </div>
-        <div>
-          <label>Address</label>
-          <textarea class="form-control" rows="4" placeholder="Masukkan alamat lengkap" name="address" required><?= htmlspecialchars($addressInput, ENT_QUOTES, 'UTF-8'); ?></textarea>
-        </div>
-        <div>
-          <label>City</label>
-          <input class="form-control" type="text" placeholder="add city here..." name="city" value="<?= htmlspecialchars($city, ENT_QUOTES, 'UTF-8'); ?>">
-        </div>
-        <div>
-          <label>Postal Code</label>
-          <input class="form-control" type="text" placeholder="add postal code here..." name="zipcode" value="<?= htmlspecialchars($postalCode, ENT_QUOTES, 'UTF-8'); ?>">
+        <div id="delivery-address-fields" style="<?= $deliveryType === 'delivery' ? '' : 'display:none;'; ?>">
+          <div>
+            <label>Address</label>
+            <textarea class="form-control" rows="4" placeholder="add address here..." name="address"><?= htmlspecialchars($addressInput, ENT_QUOTES, 'UTF-8'); ?></textarea>
+          </div>
+          <div>
+            <label>City</label>
+            <input class="form-control" type="text" placeholder="add city here..." name="city" value="<?= htmlspecialchars($city, ENT_QUOTES, 'UTF-8'); ?>">
+          </div>
+          <div>
+            <label>Postal Code</label>
+            <input class="form-control" type="text" placeholder="add postal code here..." name="zipcode" value="<?= htmlspecialchars($postalCode, ENT_QUOTES, 'UTF-8'); ?>">
+          </div>
         </div>
         <div>
           <label>Notes</label>
@@ -165,6 +174,33 @@
     </form>
   </section>
 
+  <script>
+    (function() {
+      const addressSection = document.getElementById('delivery-address-fields');
+      const deliveryRadios = document.querySelectorAll('input[name="delivery_type"]');
+      const addressInputElm = document.querySelector('textarea[name="address"]');
+
+      function toggleAddressSection() {
+        const selected = document.querySelector('input[name="delivery_type"]:checked');
+        const isDelivery = selected && selected.value === 'delivery';
+        if (addressSection) {
+          addressSection.style.display = isDelivery ? '' : 'none';
+        }
+        if (addressInputElm) {
+          if (isDelivery) {
+            addressInputElm.setAttribute('required', 'required');
+          } else {
+            addressInputElm.removeAttribute('required');
+          }
+        }
+      }
+
+      deliveryRadios.forEach(function(radio) {
+        radio.addEventListener('change', toggleAddressSection);
+      });
+      toggleAddressSection();
+    })();
+  </script>
   <script>
     // goals are
     // 1. get PHP array from the query products and encode it into JSON and save to JS global variable

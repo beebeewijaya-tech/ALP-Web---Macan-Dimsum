@@ -83,20 +83,17 @@
         <div class="order-summary">
           <h3>Order Details</h3>
 
-          <p>
-            <strong>Address</strong><br>
-            <?= $order['address']; ?>
-          </p>
+          <?php if (!empty($order['address'])): ?>
+            <p><?= $order['address']; ?></p>
+          <?php endif; ?>
 
-          <p>
-            <strong>City</strong><br>
-            <?= $order['city']; ?>
-          </p>
+          <?php if (!empty($order['city'])): ?>
+            <p><?= $order['city']; ?></p>
+          <?php endif; ?>
 
-          <p>
-            <strong>Zip Code</strong><br>
-            <?= $order['postal_code']; ?>
-          </p>
+          <?php if (!empty($order['postal_code'])): ?>
+            <p><?= $order['postal_code']; ?></p>
+          <?php endif; ?>
 
           <p>
             <strong>Contact</strong><br>

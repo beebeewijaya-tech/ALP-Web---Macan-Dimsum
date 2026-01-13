@@ -89,14 +89,17 @@
           <p><strong>Email</strong><br>
           <?= $order['email']; ?></p>
 
-          <p><strong>Address</strong><br>
-          <?= $order['address']; ?></p>
-          
-          <p><strong>City</strong><br>
-          <?= $order['city']; ?></p>
+          <?php if (!empty($order['address'])): ?>
+            <p><?= $order['address']; ?></p>
+          <?php endif; ?>
 
-          <p><strong>Zip Code</strong><br>
-          <?= $order['postal_code']; ?></p>
+          <?php if (!empty($order['city'])): ?>
+            <p><?= $order['city']; ?></p>
+          <?php endif; ?>
+
+          <?php if (!empty($order['postal_code'])): ?>
+            <p><?= $order['postal_code']; ?></p>
+          <?php endif; ?>
 
           <p><strong>Delivery Type</strong><br>
           <?= $order['delivery_type']; ?></p>
