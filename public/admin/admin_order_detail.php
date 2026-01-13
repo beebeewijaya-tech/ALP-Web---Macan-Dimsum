@@ -91,6 +91,12 @@
 
           <p><strong>Address</strong><br>
           <?= $order['address']; ?></p>
+          
+          <p><strong>City</strong><br>
+          <?= $order['city']; ?></p>
+
+          <p><strong>Zip Code</strong><br>
+          <?= $order['postal_code']; ?></p>
 
           <p><strong>Delivery Type</strong><br>
           <?= $order['delivery_type']; ?></p>

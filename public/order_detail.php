@@ -89,6 +89,16 @@
           </p>
 
           <p>
+            <strong>City</strong><br>
+            <?= $order['city']; ?>
+          </p>
+
+          <p>
+            <strong>Zip Code</strong><br>
+            <?= $order['postal_code']; ?>
+          </p>
+
+          <p>
             <strong>Contact</strong><br>
             Email: <?= $order['email'] ?? ''; ?><br>
             Phone: <?= $order['phone']; ?>
