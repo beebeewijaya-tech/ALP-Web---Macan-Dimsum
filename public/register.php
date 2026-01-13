@@ -2,13 +2,12 @@
 <?php
   $errors = [];
   $email = '';
-  $address = '';
   $phone = '';
+  $address = '';
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST["email"] ?? '');
     $password = $_POST["password"] ?? '';
-    $address = trim($_POST["address"] ?? '');
     $phone = trim($_POST["phone"] ?? '');
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -21,10 +20,6 @@
 
     if ($phone === '') {
       $errors[] = 'No Hp wajib diisi';
-    }
-
-    if ($address === '') {
-      $errors[] = 'Alamat wajib diisi';
     }
 
     if (empty($errors)) {
@@ -79,11 +74,6 @@
         <div class="form-group">
           <label for="phone">Phone</label>
           <input class="form-control" type="phone" id="phone" name="phone" placeholder="+628123456789" value="<?= $phone; ?>" required>
-        </div>
-
-        <div class="form-group">
-          <label for="address">Alamat</label>
-          <textarea class="form-control" rows="5" id="address" name="address" required><?= $address; ?></textarea>
         </div>
 
         <div class="form-actions">

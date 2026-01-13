@@ -20,8 +20,15 @@
   $user = $userResult ? $userResult->fetch_assoc() : null;
   $userStmt->close();
 
+  $deliveryType = '';
+  $addressInput = '';
+  $city = '';
+  $postalCode = '';
+  $notes = '';
+
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
     $deliveryType = $_POST['delivery_type'] ?? '';
+    $addressInput = trim($_POST['address'] ?? '');
     $city = trim($_POST['city'] ?? '');
     $postalCode = trim($_POST['zipcode'] ?? '');
     $notes = trim($_POST['notes'] ?? '');
@@ -33,13 +40,14 @@
       $orderError = 'Cart masih kosong.';
     } elseif ($deliveryType === '') {
       $orderError = 'Pilih tipe delivery.';
+    } elseif ($addressInput === '') {
+      $orderError = 'Alamat wajib diisi.';
     } elseif ($totalPrice <= 0) {
       $orderError = 'Total harga tidak valid.';
     } else {
       $statusId = 1; // default PAID
       $insertOrder = $conn->prepare('INSERT INTO orders (user_id, status_id, delivery_type, total_price, address, city, postal_code, notes, phone, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
       if ($insertOrder) {
-        $address = $user['address'] ?? '';
         $phone = $user['phone'] ?? '';
         $insertOrder->bind_param(
           'iisdsssss',
@@ -47,7 +55,7 @@
           $statusId,
           $deliveryType,
           $totalPrice,
-          $address,
+          $addressInput,
           $city,
           $postalCode,
           $notes,
@@ -113,11 +121,6 @@
         <h3>Order Details</h3>
 
         <p>
-          <strong>Address</strong><br>
-          <?= $user['address'] ?>
-        </p>
-
-        <p>
           <strong>Contact</strong><br>
           Email: <?= $user['email'] ?><br>
           Phone: <?= $user['phone'] ?>
@@ -126,25 +129,29 @@
         <label>Delivery Type</label>
         <div class="radio-group">
           <label>
-            <input type="radio" name="delivery_type" value="pickup">
+            <input type="radio" name="delivery_type" value="pickup" <?= $deliveryType === 'pickup' ? 'checked' : ''; ?>>
             Pickup
           </label>
           <label>
-            <input type="radio" name="delivery_type" value="delivery">
+            <input type="radio" name="delivery_type" value="delivery" <?= $deliveryType === 'delivery' ? 'checked' : ''; ?>>
             Delivery
           </label>
         </div>
         <div>
+          <label>Address</label>
+          <textarea class="form-control" rows="4" placeholder="Masukkan alamat lengkap" name="address" required><?= htmlspecialchars($addressInput, ENT_QUOTES, 'UTF-8'); ?></textarea>
+        </div>
+        <div>
           <label>City</label>
-          <input class="form-control" type="text" placeholder="add city here..." name="city"></input>
+          <input class="form-control" type="text" placeholder="add city here..." name="city" value="<?= htmlspecialchars($city, ENT_QUOTES, 'UTF-8'); ?>">
         </div>
         <div>
           <label>Postal Code</label>
-          <input class="form-control" type="text" placeholder="add postal code here..." name="zipcode"></input>
+          <input class="form-control" type="text" placeholder="add postal code here..." name="zipcode" value="<?= htmlspecialchars($postalCode, ENT_QUOTES, 'UTF-8'); ?>">
         </div>
         <div>
           <label>Notes</label>
-          <textarea placeholder="add notes here..." name="notes" rows="5"></textarea>
+          <textarea placeholder="add notes here..." name="notes" rows="5"><?= htmlspecialchars($notes, ENT_QUOTES, 'UTF-8'); ?></textarea>
         </div>
         <br>
         <h4 id="total-price"></h4>
